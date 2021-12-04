@@ -70,11 +70,11 @@ class GameScreen():
         self.exitGame = button(screen, (600, 60), " EXIT ", 15, "white on black")
 
         pygame.display.update()
-        
+
         self.gameLogic.gameData()
 
     def showStatus(self):
-        if self.gameLogic.remain_key == 9 or self.gameLogic.goal == 9:
+        if self.gameLogic.remain_key == 9 or self.gameLogic.remain_key == 99 or self.gameLogic.goal == 9 or self.gameLogic.goal == 99:
             screen.blit(resetStatus, (100, 60))
             screen.blit(myTreasure, (180, 60))
             screen.blit(hiddenTreasure, (260, 60))
@@ -94,7 +94,7 @@ class GameScreen():
                     sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    
+
                     # 종료 버튼
                     if self.exitGame.collidepoint(pygame.mouse.get_pos()):
                         main.main()
@@ -129,7 +129,7 @@ class GameScreen():
                     except TypeError:
                         pass
 
-            # 게임 결과 
+            # 게임 결과
             foundChest = self.gameLogic.found_chest
             leftChest = self.gameLogic.goal
 
@@ -139,41 +139,43 @@ class GameScreen():
             elif self.gameLogic.remain_key == 0:
                 return foundChest, leftChest, False
 
+
 class ResultScreen():
-        def __init__(self, gameResult):
-            count, remain, ifSuccess = gameResult
+    def __init__(self, gameResult):
+        count, remain, ifSuccess = gameResult
 
-            screen.fill(WHITE)
-            self.goToMain = button(screen, (490, 370), " MAIN ", 50, "white on black")
-            c_font = pygame.font.SysFont("Algerian", 30)
-            countMsg = c_font.render("You found " + str(count) + " Treasure Chest", True, BLACK)
-            remainMsg = c_font.render("Until the goal " + str(remain), True, BLACK)
+        screen.fill(WHITE)
+        self.goToMain = button(screen, (490, 370), " MAIN ", 50, "white on black")
+        c_font = pygame.font.SysFont("Algerian", 30)
+        countMsg = c_font.render("You found " + str(count) + " Treasure Chest", True, BLACK)
+        remainMsg = c_font.render("Until the goal " + str(remain), True, BLACK)
 
-            if ifSuccess:
-                screen.blit(successMsg, (100, 100))
-                screen.blit(congMsg, (100, 200))
-                screen.blit(countMsg, (100, 300))
+        if ifSuccess:
+            screen.blit(successMsg, (100, 100))
+            screen.blit(congMsg, (100, 200))
+            screen.blit(countMsg, (100, 300))
 
-            else:
-                screen.blit(failMsg, (100, 100))
-                screen.blit(countMsg, (100, 200))
-                screen.blit(remainMsg, (100, 300))
+        else:
+            screen.blit(failMsg, (100, 100))
+            screen.blit(countMsg, (100, 200))
+            screen.blit(remainMsg, (100, 300))
 
-            pygame.display.update()
+        pygame.display.update()
 
-        def running(self):
-            running = True
+    def running(self):
+        running = True
 
-            while running:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        mouse = pygame.mouse.get_pos()
-                        if self.goToMain.collidepoint(mouse):
-                            main.main()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse = pygame.mouse.get_pos()
+                    if self.goToMain.collidepoint(mouse):
+                        main.main()
+
 
 class Main():
     def main(self):
