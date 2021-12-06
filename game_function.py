@@ -145,7 +145,4 @@ class Game():
                     return {'x':x, 'y':y}
 
     def finished(self):
-        if self.goal == 0:
-            return True
-        else:
-            return False
+        return self.goal == 0
